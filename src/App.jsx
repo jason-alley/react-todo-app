@@ -47,6 +47,16 @@ export default function App() {
     })
   }
 
+  /**
+   * Afunction that deletes a todo from the todos array.
+   * It filters out the todo that matches the id of the todo that was clicked.
+   */
+  const handleDeleteTodo = (id) => {
+    setTodos(currentTodos => {
+      return currentTodos.filter(todo => todo.id !== id)
+    })
+  }
+
   return (
     <div className="wrapper">
       <form className="todo-form" onSubmit={handleSubmit}>
@@ -58,6 +68,7 @@ export default function App() {
       </form>
       <h1>Todos List</h1>
       <ul className="todo-list">
+        {todos.length === 0 && <p>You Currently have nothing to do.</p>}
         {todos.map(todo => {
           return (
             <li key={todo.id}>
@@ -68,7 +79,9 @@ export default function App() {
                   />
                 {todo.title}
               </label>
-              <button className="btn btn-delete">Delete</button>
+              <button className="btn btn-delete"
+                onClick={() => handleDeleteTodo(todo.id)}
+              >Delete</button>
             </li>
           )
         })}
