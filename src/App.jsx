@@ -18,7 +18,9 @@ export default function App() {
    */
   const handleSubmit = (e) => {
     e.preventDefault()
-
+    if ( todo === "" ) {
+      return
+    }
     setTodos(currentTodos => {
       return [...currentTodos,
       {
