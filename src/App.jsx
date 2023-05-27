@@ -20,17 +20,34 @@ export default function App() {
     e.preventDefault()
 
     setTodos(currentTodos => {
-      return [...currentTodos, 
-        { id: crypto.randomUUID(),  
-          title: todo, 
-          completed: false 
-        },
-    ]
+      return [...currentTodos,
+      {
+        id: crypto.randomUUID(),
+        title: todo,
+        completed: false
+      },
+      ]
     })
     setTodo("")
   }
 
-  return(
+  /** 
+   * A function that checks if the todo id matches the id of the todo that was clicked.
+   * If it matches, then we toggle the completed property of the todo.
+   * If it doesn't match, then we return the todo as is.
+  */
+  const handleTodoClick = (id, completed) => {
+    setTodos(currentTodos => {
+      return currentTodos.map(todo => {
+        if (todo.id === id) {
+          return { ...todo, completed: !completed }
+        }
+        return todo
+      })
+    })
+  }
+
+  return (
     <div className="wrapper">
       <form className="todo-form" onSubmit={handleSubmit}>
         <div className="todo-form__input">
@@ -41,17 +58,20 @@ export default function App() {
       </form>
       <h1>Todos List</h1>
       <ul className="todo-list">
-      {todos.map(todo => {
-        return (
-          <li key={todo.id}>
-            <label>
-              <input type="checkbox" defaultChecked={todo.completed} />
-              {todo.title}
-            </label>
-            <button className="btn btn-delete">Delete</button>
-          </li>
-        )
-      })} 
+        {todos.map(todo => {
+          return (
+            <li key={todo.id}>
+              <label>
+                <input type="checkbox" 
+                  defaultChecked={todo.completed} 
+                    onChange={ e => handleTodoClick(todo.id, e.target.checked)}
+                  />
+                {todo.title}
+              </label>
+              <button className="btn btn-delete">Delete</button>
+            </li>
+          )
+        })}
       </ul>
     </div>
   )
