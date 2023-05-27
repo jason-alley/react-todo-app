@@ -1,11 +1,22 @@
+import { useState } from "react";
 import "./styles.css";
+
+
+
 export default function App() {
+  const [todo, setTodo] = useState("")
+
+  const handleTodoChange = (e) => {
+    setTodo(e.target.value)
+  }
+
+
   return(
     <div className="wrapper">
       <form className="todo-form">
         <div className="todo-form__input">
           <label htmlFor="todo">Add Item</label>
-          <input type="text" id="todo" />
+          <input value={todo} onChange={handleTodoChange} type="text" id="todo" />
         </div>
         <button className="button">Add</button>
       </form>
